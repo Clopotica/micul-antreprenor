@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Micul Antreprenor — 100 de aventuri cu limonadă și hot dog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=19">
+</head>
+<body>
+
+<!-- ══════════════════════════════ START ══════════════════════════════ -->
+<section class="screen is-active" id="screen-start">
+  <div class="start-wrap">
+    <div class="langbar">
+      <button class="lang-btn" data-lang="ro">Română</button>
+      <button class="lang-btn" data-lang="en">English</button>
+    </div>
+
+    <div class="start-badge">🍋 &nbsp;🌭 &nbsp;🗺️</div>
+    <h1 class="start-title" data-i18n="start.title">Micul Antreprenor</h1>
+    <p class="start-sub" data-i18n-html="start.sub"></p>
+
+    <div class="start-card">
+      <label class="field-label" for="standName" data-i18n="start.nameLabel">Dă-i un nume standului tău</label>
+      <input id="standName" class="text-input" type="text" maxlength="22" data-i18n-ph="start.namePlaceholder" autocomplete="off">
+
+      <div class="mode-head">
+        <label class="field-label" data-i18n="start.modeLabel">Alege aventura</label>
+        <span class="mode-count" id="modeCount"></span>
+        <button class="btn btn-soft btn-sm btn-dice" id="btnRandom" type="button" data-i18n="start.random">Surpriză 🎲</button>
+      </div>
+      <div class="world-tabs" id="worldTabs"></div>
+      <div class="mode-grid" id="modeGrid"></div>
+      <div class="mode-pick" id="modePick"></div>
+
+      <label class="field-label" data-i18n="start.diffLabel">Alege-ți provocarea</label>
+      <div class="seg" id="difficulty" role="radiogroup">
+        <button class="seg-btn is-on" data-diff="easy" role="radio" aria-checked="true">
+          <span class="seg-name" data-i18n="diff.easy">Începător</span>
+          <span class="seg-note"></span>
+        </button>
+        <button class="seg-btn" data-diff="normal" role="radio" aria-checked="false">
+          <span class="seg-name" data-i18n="diff.normal">Fondator</span>
+          <span class="seg-note"></span>
+        </button>
+        <button class="seg-btn" data-diff="hard" role="radio" aria-checked="false">
+          <span class="seg-name" data-i18n="diff.hard">Magnat</span>
+          <span class="seg-note"></span>
+        </button>
+      </div>
+
+      <button class="btn btn-primary btn-xl btn-block" id="btnStart" data-i18n="start.go">Deschide afacerea →</button>
+      <button class="btn btn-ghost btn-block" id="btnHowStart" data-i18n="start.how">Cum funcționează?</button>
+    </div>
+
+    <ul class="start-facts">
+      <li data-i18n-html="start.fact1"></li>
+      <li data-i18n-html="start.fact2"></li>
+      <li data-i18n-html="start.fact3"></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ PLAN ══════════════════════════════ -->
+<section class="screen" id="screen-plan">
+
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="tb-brand">
+        <span class="tb-logo" id="tbLogo">🍋</span>
+        <div>
+          <div class="tb-name" id="tbStandName">—</div>
+          <div class="tb-role" id="tbRole">Tu · Fondator și Șef</div>
+        </div>
+      </div>
+
+      <div class="tb-days">
+        <div class="tb-days-label">
+          <span data-i18n="tb.dayWord">Ziua</span> <b id="tbDay">1</b>
+          <span data-i18n="tb.ofWord">din</span> <span id="tbDayTotal">14</span>
+        </div>
+        <div class="daydots" id="dayDots" aria-hidden="true"></div>
+      </div>
+
+      <div class="tb-stats">
+        <div class="tb-stat">
+          <div class="tb-stat-k" data-i18n="tb.cash">Bani</div>
+          <div class="tb-stat-v" id="tbCash">$150</div>
+        </div>
+        <div class="tb-stat tb-stat-rep">
+          <div class="tb-stat-k" data-i18n="tb.rep">Reputație</div>
+          <div class="tb-stat-v"><span id="tbRepFace">🙂</span> <span id="tbRepVal">50</span></div>
+          <div class="repbar"><span id="tbRepFill"></span></div>
+        </div>
+        <button class="btn btn-icon" id="btnHow" data-i18n-title="tb.how">?</button>
+        <button class="btn btn-icon" id="btnMenu" data-i18n-title="tb.menu">⋯</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="plan-grid">
+    <div class="col-main">
+
+      <!-- Forecast -->
+      <section class="card card-forecast">
+        <div class="card-head">
+          <h2 class="card-title" data-i18n="fc.title">Prognoza de azi</h2>
+          <span class="card-hint" data-i18n="fc.hint"></span>
+        </div>
+        <div class="forecast-row">
+          <div class="fc-hero">
+            <div class="fc-emoji" id="fcEmoji">☀️</div>
+            <div class="fc-text">
+              <div class="fc-weather" id="fcWeather">—</div>
+              <div class="fc-temp" id="fcTemp">—</div>
+            </div>
+          </div>
+          <div class="fc-chips">
+            <div class="chip" id="fcCrowd"><b data-i18n="fc.crowd">Aglomerație</b><span>—</span></div>
+            <div class="chip" id="fcThirst"><b data-i18n="fc.thirst">Poftă de</b><span>—</span></div>
+            <div class="chip" id="fcTomorrow"><b data-i18n="fc.tomorrow">Mâine</b><span>—</span></div>
+          </div>
+        </div>
+        <div class="fc-event" id="fcEvent" hidden></div>
+        <div class="fc-twist" id="fcTwist"></div>
+      </section>
+
+      <!-- Decision of the day -->
+      <section class="card card-decision" id="cardBox" hidden></section>
+
+      <!-- Menu & prices -->
+      <section class="card">
+        <div class="card-head">
+          <h2 class="card-title" data-i18n="menu.title">Meniul și prețurile tale</h2>
+          <span class="card-hint" data-i18n="menu.hint"></span>
+        </div>
+        <div class="menu-grid" id="menuGrid"></div>
+      </section>
+
+      <!-- Supplies -->
+      <section class="card">
+        <div class="card-head">
+          <h2 class="card-title" data-i18n="sup.title">Fă aprovizionarea</h2>
+          <span class="card-hint" data-i18n="sup.hint"></span>
+        </div>
+        <div class="autobar">
+          <div class="autobar-txt" data-i18n="sup.autoTxt"></div>
+          <div class="autobar-acts">
+            <button class="btn btn-soft btn-sm" data-auto="light"  data-i18n="sup.auto.light"></button>
+            <button class="btn btn-soft btn-sm" data-auto="normal" data-i18n="sup.auto.normal"></button>
+            <button class="btn btn-soft btn-sm" data-auto="heavy"  data-i18n="sup.auto.heavy"></button>
+          </div>
+        </div>
+        <div class="supply-grid" id="supplyGrid"></div>
+        <div class="supply-foot">
+          <div class="sf-item"><span data-i18n="sup.basket">Coșul de azi</span><b id="sfBasket">$0.00</b></div>
+          <div class="sf-item"><span data-i18n="sup.bulk">Reducere de volum</span><b class="pos" id="sfBulk">$0.00</b></div>
+          <div class="sf-item"><span data-i18n="sup.after">Bani după cumpărături</span><b id="sfAfter">$0.00</b></div>
+        </div>
+      </section>
+
+      <!-- Growth -->
+      <section class="card">
+        <div class="card-head">
+          <h2 class="card-title" data-i18n="grow.title">Dezvoltă afacerea</h2>
+          <span class="card-hint" data-i18n="grow.hint"></span>
+        </div>
+
+        <div class="growth-grid">
+          <div class="growth-box">
+            <div class="gb-head"><span class="gb-emoji">📣</span>
+              <div><b data-i18n="grow.mk.name">Reclamă</b><small data-i18n="grow.mk.sub"></small></div></div>
+            <div class="gb-value" id="mkVal">$0</div>
+            <input type="range" class="slider" id="mkSlider" min="0" max="40" step="2" value="0">
+            <div class="gb-note" id="mkNote"></div>
+          </div>
+
+          <div class="growth-box">
+            <div class="gb-head"><span class="gb-emoji">🧑‍🍳</span>
+              <div><b data-i18n="grow.staff.name">Angajează un ajutor</b><small data-i18n="grow.staff.sub"></small></div></div>
+            <div class="gb-value" data-i18n="grow.staff.perDay">$25 / zi</div>
+            <button class="toggle" id="stToggle" role="switch" aria-checked="false">
+              <span class="toggle-knob"></span><span class="toggle-txt"></span></button>
+            <div class="gb-note" id="stNote"></div>
+          </div>
+        </div>
+
+        <h3 class="sub-title"><span data-i18n="grow.upg">Îmbunătățiri</span> <small data-i18n="grow.upgSub"></small></h3>
+        <div class="upgrade-grid" id="upgradeGrid"></div>
+      </section>
+
+      <!-- New stands -->
+      <section class="card card-spots">
+        <div class="card-head">
+          <h2 class="card-title" data-i18n="spots.title">Deschide standuri noi</h2>
+          <span class="card-hint" data-i18n="spots.hint"></span>
+        </div>
+        <div class="spot-grid" id="spotGrid"></div>
+      </section>
+    </div>
+
+    <!-- Sticky plan panel -->
+    <aside class="col-side">
+      <div class="card card-plan">
+        <div class="card-head"><h2 class="card-title" data-i18n="plan.title">Planul de azi</h2></div>
+
+        <div class="plan-scroll">
+        <div class="plan-be" id="planBE">
+          <div class="be-k" data-i18n="plan.beK">Ca să ieși pe zero trebuie să vinzi</div>
+          <div class="be-v"><span id="beNum">0</span> <small data-i18n="plan.beUnit">produse azi</small></div>
+          <div class="be-sub" id="beSub"></div>
+        </div>
+
+        <div class="plan-rows">
+          <div class="prow"><span data-i18n="plan.supplies">Provizii cumpărate</span><b id="prSupplies">$0.00</b></div>
+          <div class="prow"><span data-i18n="plan.rent">Chiria standului</span><b id="prRent">$0.00</b></div>
+          <div class="prow" hidden><span data-i18n="plan.spots">Chiria standurilor noi</span><b id="prSpots">$0.00</b></div>
+          <div class="prow"><span data-i18n="plan.staff">Ajutor</span><b id="prStaff">$0.00</b></div>
+          <div class="prow"><span data-i18n="plan.marketing">Reclamă</span><b id="prMarketing">$0.00</b></div>
+          <div class="prow" hidden><span data-i18n="plan.card">Decizia zilei</span><b id="prCard">$0.00</b></div>
+          <div class="prow prow-total"><span data-i18n="plan.total">Bani puși în joc azi</span><b id="prTotal">$0.00</b></div>
+        </div>
+
+        <div class="plan-can">
+          <div class="pc"><span class="pc-emoji">🥤</span><b id="canLem">0</b><small data-i18n="plan.cups">pahare gata</small></div>
+          <div class="pc"><span class="pc-emoji">🌭</span><b id="canDog">0</b><small data-i18n="plan.dogs">hot dog gata</small></div>
+          <div class="pc"><span class="pc-emoji">⚡</span><b id="canCap">40</b><small data-i18n="plan.cap">maxim serviți</small></div>
+        </div>
+
+        <div class="plan-est">
+          <div class="pe-k" data-i18n="plan.estK">Profit estimat</div>
+          <div class="pe-v" id="peVal">$0</div>
+          <div class="pe-band" id="peBand"></div>
+        </div>
+
+        <ul class="plan-warn" id="planWarn"></ul>
+        </div>
+
+        <button class="btn btn-primary btn-xl btn-block" id="btnOpen" data-i18n="plan.open">Deschide standul! 🎪</button>
+      </div>
+    </aside>
+  </main>
+</section>
+
+<!-- ══════════════════════════════ SIM ══════════════════════════════ -->
+<section class="screen" id="screen-sim">
+  <div class="sim-wrap">
+    <div class="sim-hud">
+      <div class="hud-clock"><span id="simClock">10:00</span></div>
+      <div class="hud-stats">
+        <div class="hud-stat"><small data-i18n="sim.cups">Pahare vândute</small><b id="simLem">0</b></div>
+        <div class="hud-stat"><small data-i18n="sim.dogs">Hot dog vândute</small><b id="simDog">0</b></div>
+        <div class="hud-stat hud-money"><small data-i18n="sim.money">Bani încasați</small><b id="simRev">$0.00</b></div>
+      </div>
+      <button class="btn btn-soft btn-sm" id="btnSkip" data-i18n="sim.skip">Sari la închidere ⏩</button>
+    </div>
+
+    <div class="scene">
+      <svg class="scene-svg" viewBox="0 0 900 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" id="skyTop" stop-color="#8FD3F4"/>
+            <stop offset="100%" id="skyBottom" stop-color="#DFF4FF"/>
+          </linearGradient>
+          <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" id="groundTop" stop-color="#96D67F"/><stop offset="100%" id="groundBottom" stop-color="#6FBF5C"/>
+          </linearGradient>
+          <linearGradient id="awning" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FF8A5B"/><stop offset="100%" stop-color="#EF5A3C"/>
+          </linearGradient>
+        </defs>
+
+        <rect x="0" y="0" width="900" height="420" fill="url(#skyGrad)"/>
+        <g id="sunGroup"><circle cx="762" cy="72" r="34" fill="#FFD84D"/><circle cx="762" cy="72" r="50" fill="#FFD84D" opacity=".22"/></g>
+        <g id="cloudGroup" opacity="0"></g>
+        <g id="rainGroup" opacity="0"></g>
+
+        <g id="bgGroup"></g>
+
+        <rect x="0" y="300" width="900" height="120" fill="url(#groundGrad)"/>
+        <rect x="0" y="300" width="900" height="7" id="groundLine" fill="#5FAE4E" opacity=".55"/>
+        <g id="extraStands"></g>
+
+        <g transform="translate(300,150)">
+          <rect x="8" y="96" width="284" height="118" rx="10" fill="#F6E3C4"/>
+          <rect x="8" y="96" width="284" height="118" rx="10" fill="none" stroke="#C9A87C" stroke-width="4"/>
+          <g fill="#E9D2AC"><rect x="24" y="112" width="252" height="12" rx="6"/><rect x="24" y="140" width="252" height="12" rx="6"/><rect x="24" y="168" width="252" height="12" rx="6"/></g>
+          <rect x="-6" y="76" width="312" height="26" rx="8" fill="#C9A87C"/>
+          <path d="M-14 76 L14 24 H286 L314 76 Z" fill="url(#awning)"/>
+          <g fill="#FFF7E8" opacity=".92">
+            <path d="M22 24 L-2 68 h30 L54 24 Z"/><path d="M86 24 L62 68 h30 L118 24 Z"/>
+            <path d="M150 24 L126 68 h30 L182 24 Z"/><path d="M214 24 L190 68 h30 L246 24 Z"/>
+          </g>
+          <rect x="60" y="-34" width="180" height="52" rx="12" fill="#FFF7E8" stroke="#C9A87C" stroke-width="3"/>
+          <text id="signText" x="150" y="-2" text-anchor="middle" font-family="'Baloo 2',system-ui" font-weight="800" font-size="19" fill="#33261A"></text>
+          <g transform="translate(44,58)"><rect x="0" y="0" width="30" height="34" rx="5" fill="#FFE08A" stroke="#E2A400" stroke-width="2.5"/><rect x="4" y="10" width="22" height="20" rx="3" fill="#FFC93C"/></g>
+          <g transform="translate(226,62)"><rect x="0" y="4" width="36" height="26" rx="10" fill="#F2C27E"/><rect x="4" y="10" width="28" height="10" rx="5" fill="#E05C3E"/></g>
+        </g>
+
+        <g id="peopleGroup"></g>
+        <g id="popGroup"></g>
+      </svg>
+
+      <div class="sim-ticker" id="simTicker"></div>
+    </div>
+
+    <div class="sim-bar"><div class="sim-bar-fill" id="simBarFill"></div></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ REPORT ══════════════════════════════ -->
+<section class="screen" id="screen-report">
+  <div class="report-wrap">
+    <div class="rp-head">
+      <div class="rp-eyebrow">
+        <span data-i18n="rp.dayWord">Ziua</span> <span id="rpDay">1</span> ·
+        <span data-i18n="rp.closing">Ora închiderii</span>
+      </div>
+      <h2 class="rp-title" id="rpTitle">—</h2>
+      <div class="rp-hero" id="rpHero">
+        <small data-i18n="rp.profitK">Profitul de azi</small>
+        <div class="rp-hero-v" id="rpProfit">$0.00</div>
+        <div class="rp-hero-sub" id="rpProfitSub"></div>
+      </div>
+    </div>
+
+    <div class="report-grid">
+      <section class="card">
+        <div class="card-head"><h3 class="card-title" data-i18n="pnl.title">Cifrele</h3>
+          <span class="card-hint" data-i18n="pnl.hint"></span></div>
+        <table class="pnl"><tbody id="pnlBody"></tbody></table>
+
+        <h4 class="cf-title" data-i18n="cf.title">Banii tăi, pas cu pas</h4>
+        <table class="cashflow"><tbody id="cashFlow"></tbody></table>
+        <div class="cashline" id="cashLine"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><h3 class="card-title" data-i18n="mf.title">Unde s-a dus fiecare dolar</h3>
+          <span class="card-hint" id="mfHint"></span></div>
+        <div class="moneyflow" id="moneyFlow"></div>
+        <ul class="mf-legend" id="mfLegend"></ul>
+      </section>
+
+      <section class="card card-coach">
+        <div class="coach-av">🦉</div>
+        <div class="coach-body">
+          <div class="coach-name" data-i18n="coach.name">Antrenorul Ollie zice…</div>
+          <p class="coach-txt" id="coachTxt"></p>
+          <div class="coach-term" id="coachTerm"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><h3 class="card-title" data-i18n="chart.title">Profitul în fiecare zi</h3>
+          <span class="card-hint" data-i18n="chart.hint"></span></div>
+        <div class="chart-holder" id="chartHolder"></div>
+      </section>
+    </div>
+
+    <div class="rp-actions">
+      <button class="btn btn-primary btn-xl" id="btnNextDay">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ FINALE ══════════════════════════════ -->
+<section class="screen" id="screen-finale">
+  <div class="finale-wrap">
+    <div class="fin-crown" id="finEmoji">🏆</div>
+    <h2 class="fin-title" id="finTitle">—</h2>
+    <p class="fin-sub" id="finSub"></p>
+
+    <div class="fin-stats" id="finStats"></div>
+
+    <section class="card">
+      <div class="card-head"><h3 class="card-title" id="finSeason">Cele 14 zile ale tale</h3>
+        <span class="card-hint" data-i18n="fin.seasonHint"></span></div>
+      <div class="chart-holder" id="finChart"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h3 class="card-title" data-i18n="fin.badges">Insigne câștigate</h3></div>
+      <div class="badge-grid" id="finBadges"></div>
+    </section>
+
+    <section class="card fin-map" id="finMap"></section>
+
+    <div class="rp-actions rp-actions-2">
+      <button class="btn btn-soft btn-xl" id="btnAgain" data-i18n="fin.again">Încă o dată aici 🔁</button>
+      <button class="btn btn-primary btn-xl" id="btnReplay" data-i18n="fin.replay">Altă aventură 🗺️</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ HOW-TO ══════════════════════════════ -->
+<div class="modal" id="howModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-x" id="howClose" data-i18n-title="sm.close">✕</button>
+    <h2 class="modal-title" data-i18n="how.title">Cum îți conduci standul</h2>
+
+    <ol class="how-list">
+      <li data-i18n-html="how.1"></li>
+      <li data-i18n-html="how.2"></li>
+      <li data-i18n-html="how.3"></li>
+      <li data-i18n-html="how.4"></li>
+      <li data-i18n-html="how.5"></li>
+      <li data-i18n-html="how.6"></li>
+    </ol>
+
+    <h3 class="how-h" data-i18n="how.words">Cuvinte pe care le folosește un fondator adevărat</h3>
+    <dl class="glossary">
+      <dt data-i18n="gl.revenue"></dt><dd data-i18n-html="gl.revenue.d"></dd>
+      <dt data-i18n="gl.cogs"></dt><dd data-i18n-html="gl.cogs.d"></dd>
+      <dt data-i18n="gl.fixed"></dt><dd data-i18n-html="gl.fixed.d"></dd>
+      <dt data-i18n="gl.profit"></dt><dd data-i18n-html="gl.profit.d"></dd>
+      <dt data-i18n="gl.margin"></dt><dd data-i18n-html="gl.margin.d"></dd>
+      <dt data-i18n="gl.break"></dt><dd data-i18n-html="gl.break.d"></dd>
+      <dt data-i18n="gl.rep"></dt><dd data-i18n-html="gl.rep.d"></dd>
+    </dl>
+
+    <button class="btn btn-primary btn-block" id="howGo" data-i18n="how.go">Am înțeles</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ ADVENTURE INTRO ══════════════════════════════ -->
+<div class="modal" id="introModal" hidden>
+  <div class="modal-card modal-sm modal-intro" role="dialog" aria-modal="true">
+    <div class="intro-emoji" id="introEmoji">🏘️</div>
+    <h2 class="modal-title intro-title" id="introTitle">—</h2>
+    <p class="intro-twist" id="introTwist"></p>
+    <ul class="intro-tips" id="introTips"></ul>
+    <button class="btn btn-primary btn-xl btn-block" id="introGo" data-i18n="intro.go">Să începem! 🚀</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ STAND MENU ══════════════════════════════ -->
+<div class="modal" id="menuModal" hidden>
+  <div class="modal-card modal-sm" role="dialog" aria-modal="true">
+    <button class="modal-x" id="menuClose" data-i18n-title="sm.close">✕</button>
+    <h2 class="modal-title" data-i18n="sm.title">Standul tău</h2>
+
+    <label class="field-label" for="renameInput" data-i18n="sm.rename">Redenumește-ți standul</label>
+    <div class="rename-row">
+      <input id="renameInput" class="text-input" type="text" maxlength="22" autocomplete="off">
+      <button class="btn btn-soft" id="btnRename" data-i18n="sm.save">Salvează</button>
+    </div>
+
+    <div class="menu-sep"></div>
+
+    <label class="field-label" data-i18n="lang.switch">Limbă</label>
+    <div class="langbar langbar-menu">
+      <button class="lang-btn" data-lang="ro">Română</button>
+      <button class="lang-btn" data-lang="en">English</button>
+    </div>
+
+    <div class="menu-sep"></div>
+
+    <h3 class="how-h" data-i18n="sm.startOver">Ia-o de la capăt</h3>
+    <p class="menu-note" id="menuProgress"></p>
+    <button class="btn btn-soft btn-block" id="btnRestartSame">
+      <span data-i18n="sm.restart">Reia sezonul</span><small data-i18n="sm.restartSub"></small></button>
+    <button class="btn btn-soft btn-block" id="btnNewStand">
+      <span data-i18n="sm.newStand">Stand nou</span><small data-i18n="sm.newStandSub"></small></button>
+    <p class="menu-warn" data-i18n="sm.warn"></p>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack"></div>
+
+<script src="i18n.js?v=19"></script>
+<script src="game.js?v=19"></script>
+</body>
+</html>
