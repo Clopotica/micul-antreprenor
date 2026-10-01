@@ -559,8 +559,12 @@ var BASE_TRAFFIC = 22;
 var BASE_CAP     = 40;
 var STAFF_COST   = 25;
 var STAFF_CAP    = 35;
-var SAVE_KEY     = 'bossOfTheBlock.save.v2';
-var PROGRESS_KEY = 'bossOfTheBlock.progress.v1';
+// Saves and achievements belong to the user signed into this tab.
+function accountKey(key) {
+  return typeof window !== 'undefined' && window.AppAuth ? window.AppAuth.storageKey(key) : key;
+}
+var SAVE_KEY     = accountKey('bossOfTheBlock.save.v2');
+var PROGRESS_KEY = accountKey('bossOfTheBlock.progress.v1');
 
 /* ───────────────────────────── helpers ───────────────────────────── */
 
@@ -1044,7 +1048,7 @@ function recordProgress(modeId, won, cash) {
 var chosenDiff = 'easy';
 var chosenMode = 'street';
 
-var WORLD_KEY = 'bossOfTheBlock.world';
+var WORLD_KEY = accountKey('bossOfTheBlock.world');
 var chosenWorld = (function () {
   try { var w = localStorage.getItem(WORLD_KEY); if (w && MODE_GROUPS.indexOf(w) !== -1) return w; } catch (e) {}
   return MODE_GROUPS[0];
@@ -1166,7 +1170,7 @@ function initStart() {
     startDay();
   });
 
-  $$('.lang-btn').forEach(function (b) {
+  $$('.lang-btn[data-lang]').forEach(function (b) {
     b.addEventListener('click', function () { switchLang(b.dataset.lang); });
   });
 
@@ -1237,7 +1241,7 @@ function openMenu() {
 }
 
 function markLangButtons() {
-  $$('.lang-btn').forEach(function (b) {
+  $$('.lang-btn[data-lang]').forEach(function (b) {
     b.classList.toggle('is-on', b.dataset.lang === LANG);
   });
 }

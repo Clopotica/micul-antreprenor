@@ -14,6 +14,21 @@ default, with a Română / English switch on the title screen and in the stand m
 
 Dublu-click pe **`index.html`**. Atât — fără instalare, fără server, fără internet.
 
+La pornire apare ecranul de autentificare. Sunt configurate conturile **user01–user20**,
+cu parolele distribuite separat. Numele utilizatorilor acceptă și majuscule;
+parolele trebuie introduse exact. Butonul **Deconectare** permite schimbarea contului.
+
+Sesiunea este păstrată în fila curentă, inclusiv după reîncărcare. Progresul,
+recordurile și lumea aleasă se salvează separat pentru fiecare cont, în browserul
+și pe dispozitivul folosit; nu se sincronizează între dispozitive. Salvările vechi,
+de dinaintea loginului, rămân intacte, dar nu sunt atribuite automat vreunui cont.
+
+Acesta este un login local pentru folosire la clasă: `auth.js` conține hash-uri
+PBKDF2-SHA256 cu salt individual, nu parole în clar. Fiind o aplicație statică,
+verificarea din browser poate fi ocolită; nu este control de acces pe server.
+Funcționează prin HTTPS, localhost sau deschizând fișierul local într-un browser
+modern. Pentru protecția reală a datelor ar fi necesar un backend de autentificare.
+
 Progresul se salvează automat. Închizi fila în mijlocul sezonului și te așteaptă
 un buton **Continuă** când te întorci.
 
@@ -120,6 +135,7 @@ index.html    structura paginii
 styles.css    tot sistemul vizual
 i18n.js       textele, în română și engleză
 game.js       simularea, economia, animația, graficele
+auth.js       login local, hash-urile celor 20 de conturi și sesiunea din filă
 ```
 
 Fără dependențe, fără build. Economia stă în blocul de configurare din capul lui
@@ -138,3 +154,12 @@ interfață), astfel încât un script Node poate juca sezoane întregi.
 > pe aceste valori. Se pot converti în lei înmulțind uniform toate sumele din
 > `game.js` (prețuri, costuri, chirie, ținte, îmbunătățiri) și împărțitorul
 > `S.marketing / 20`.
+
+## Verificarea loginului
+
+Testele din `tests/login.cjs` folosesc Node.js și Playwright (cu Chromium
+instalat sau Chrome local). Rulează `node tests/login.cjs` cu variabila de mediu
+`LOGIN_TEST_PASSWORDS` setată la un array JSON cu cele 20 de parole, în ordinea
+user01–user20. Parolele nu sunt incluse în fișierele de test și nu sunt afișate.
+Testele verifică loginul tuturor conturilor, parole greșite, sesiuni, separarea
+salvărilor, limbile, deconectarea, afișarea mobilă și erorile de încărcare.

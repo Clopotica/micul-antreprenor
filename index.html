@@ -7,9 +7,38 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=19">
+<link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
+
+<section id="loginScreen" class="login-screen" aria-labelledby="loginTitle">
+  <div class="login-wrap">
+    <div class="langbar">
+      <button class="login-lang lang-btn" type="button" data-login-lang="ro">Română</button>
+      <button class="login-lang lang-btn" type="button" data-login-lang="en">English</button>
+    </div>
+    <div class="start-badge" aria-hidden="true">🍋 &nbsp;🌭 &nbsp;🗺️</div>
+    <h1 id="loginTitle" class="start-title" data-i18n="start.title">Micul Antreprenor</h1>
+    <p class="start-sub" data-i18n="auth.intro">Intră în cont și pornește aventura!</p>
+    <form id="loginForm" class="start-card login-card">
+      <label class="field-label" for="loginUsername" data-i18n="auth.username">Utilizator</label>
+      <input id="loginUsername" name="username" class="text-input" type="text" placeholder="user01" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="30" required autofocus>
+      <label class="field-label" for="loginPassword" data-i18n="auth.password">Parolă</label>
+      <input id="loginPassword" name="password" class="text-input" type="password" autocomplete="current-password" maxlength="128" required aria-describedby="loginError">
+      <label class="login-show"><input id="showPassword" type="checkbox"> <span data-i18n="auth.showPassword">Arată parola</span></label>
+      <p id="loginError" class="login-error" role="alert" hidden></p>
+      <button id="loginSubmit" class="btn btn-primary btn-xl btn-block" type="submit" data-i18n="auth.login">Intră în joc →</button>
+      <p class="login-note" data-i18n="auth.hint">Folosește contul și parola primite de la profesor.</p>
+    </form>
+    <noscript>Activează JavaScript în browser pentru a te autentifica și a juca.</noscript>
+  </div>
+</section>
+
+<div id="gameApp" hidden>
+<div class="account-bar">
+  <span><span data-i18n="auth.account">Cont</span>: <strong id="accountUsername"></strong></span>
+  <button id="logoutButton" class="btn btn-soft btn-sm" type="button" data-i18n="auth.logout">Deconectare</button>
+</div>
 
 <!-- ══════════════════════════════ START ══════════════════════════════ -->
 <section class="screen is-active" id="screen-start">
@@ -471,7 +500,9 @@
 
 <div class="toast-stack" id="toastStack"></div>
 
-<script src="i18n.js?v=19"></script>
-<script src="game.js?v=19"></script>
+</div>
+
+<script src="i18n.js?v=20"></script>
+<script src="auth.js?v=20"></script>
 </body>
 </html>

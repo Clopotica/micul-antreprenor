@@ -1922,6 +1922,37 @@ addStrings('en', {
 
 /* ---------------------------------------------------------------- */
 
+addStrings('ro', {
+  'auth.intro': 'Intră în cont și pornește aventura!',
+  'auth.username': 'Utilizator',
+  'auth.password': 'Parolă',
+  'auth.showPassword': 'Arată parola',
+  'auth.login': 'Intră în joc →',
+  'auth.checking': 'Se verifică…',
+  'auth.hint': 'Folosește contul și parola primite de la profesor.',
+  'auth.invalid': 'Utilizator sau parolă incorectă. Încearcă din nou.',
+  'auth.unavailable': 'Autentificarea necesită un browser modern și HTTPS sau deschiderea fișierului local.',
+  'auth.loadError': 'Jocul nu s-a putut încărca. Reîncarcă pagina și încearcă din nou.',
+  'auth.reload': 'Reîncarcă pagina',
+  'auth.account': 'Cont',
+  'auth.logout': 'Deconectare'
+});
+addStrings('en', {
+  'auth.intro': 'Sign in and start your adventure!',
+  'auth.username': 'Username',
+  'auth.password': 'Password',
+  'auth.showPassword': 'Show password',
+  'auth.login': 'Enter the game →',
+  'auth.checking': 'Checking…',
+  'auth.hint': 'Use the account and password your teacher gave you.',
+  'auth.invalid': 'Incorrect username or password. Please try again.',
+  'auth.unavailable': 'Sign-in requires a modern browser and HTTPS or opening the local file.',
+  'auth.loadError': 'The game could not load. Reload the page and try again.',
+  'auth.reload': 'Reload page',
+  'auth.account': 'Account',
+  'auth.logout': 'Sign out'
+});
+
 var LANG_KEY = 'bossOfTheBlock.lang';
 var LANG = (function () {
   try {
